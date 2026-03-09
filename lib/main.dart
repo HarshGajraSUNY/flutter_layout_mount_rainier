@@ -94,34 +94,103 @@ class ButtonSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildButtonColumn(context, Icons.call, 'CALL'),
-        _buildButtonColumn(context, Icons.near_me, 'ROUTE'),
-        _buildButtonColumn(context, Icons.share, 'SHARE'),
-      ],
-    );
-  }
-
-  Column _buildButtonColumn(BuildContext context, IconData icon, String label) {
-    Color color = Theme.of(context).primaryColor;
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon, color: color),
-        Container(
-          margin: const EdgeInsets.only(top: 8),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: color,
-            ),
+        _buildButtonColumn(
+          context,
+          Icons.call,
+          'CALL',
+          () => _showConfirmationDialog(
+            context,
+            action: 'Call',
+            message: 'Do you want to call this destination?',
+          ),
+        ),
+        _buildButtonColumn(
+          context,
+          Icons.near_me,
+          'ROUTE',
+          () => _showConfirmationDialog(
+            context,
+            action: 'Route',
+            message: 'Do you want to open the route to this destination?',
+          ),
+        ),
+        _buildButtonColumn(
+          context,
+          Icons.share,
+          'SHARE',
+          () => _showConfirmationDialog(
+            context,
+            action: 'Share',
+            message: 'Do you want to share this destination?',
           ),
         ),
       ],
     );
+  }
+
+  Widget _buildButtonColumn(
+    BuildContext context,
+    IconData icon,
+    String label,
+    VoidCallback onTap,
+  ) {
+    Color color = Theme.of(context).primaryColor;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: color),
+            Container(
+              margin: const EdgeInsets.only(top: 8),
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: color,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showConfirmationDialog(
+    BuildContext context, {
+    required String action,
+    required String message,
+  }) async {
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('$action Confirmation'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Confirm'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed == true) {
+      debugPrint('${action.toLowerCase()} button confirmed');
+    }
   }
 }
 
@@ -138,4 +207,8 @@ class TextSection extends StatelessWidget {
       child: Text(description),
     );
   }
+  
 }
+
+// i want to add the abiliity to click on the call button and it should print "call button clicked" in the console, same for route and share buttons with respective messages
+
