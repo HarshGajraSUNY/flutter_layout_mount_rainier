@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// create a image section class for the location passed via argument and image stored in assets/images folder with name of the location in lowercase and underscore instead of space and .jpg extension
 class ImageSection extends StatelessWidget {
   const ImageSection({super.key, required this.imageName}); 
   final String imageName;
@@ -44,8 +43,6 @@ class ImageSection extends StatelessWidget {
   }
 
 }
-
-// create a title section class which is a stateless widget and a row with a children : column of text , a star icon and number 45
 
 class TitleSection extends StatelessWidget {
   const TitleSection({super.key, required this.name, required this.location});
@@ -85,7 +82,7 @@ class TitleSection extends StatelessWidget {
   }
 }
 
-// write button section with a row of three columns with an icon and text : call , route , share
+
 class ButtonSection extends StatelessWidget {
   const ButtonSection({super.key});
 
@@ -194,7 +191,7 @@ class ButtonSection extends StatelessWidget {
   }
 }
 
-// create a text section contaning description of the location passed via argument
+
 class TextSection extends StatelessWidget {
   const TextSection({super.key, required this.description});
 
@@ -209,6 +206,3 @@ class TextSection extends StatelessWidget {
   }
   
 }
-
-// i want to add the abiliity to click on the call button and it should print "call button clicked" in the console, same for route and share buttons with respective messages
-
